@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/vue@2.5.22/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.min.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div>cpu占用率：{{cpu}}%</div>
+        <div>内存占用率:{{mem}}%</div>
+        <div id="chart" style="width: 600px;height: 400px;"></div>
+    </div>
+
+    <script>
+        const host = 'http://localhost:3000'
+        var app = new Vue({
+            el: '#app',
+            data: {
+                cpu:'0',
+                mem:'0'
+            },
+            mounted() {
+                // http轮训
+                // setInterval(async () => {
+                //     const res = await axios.get(host + '/list')
+                //     this.list = res.data
+                // }, 1000);
+                // websocket方式
+                let myChart = echarts.init(document.getElementById('chart'));
+                let arr1=[],arr2=[];
+                let xAxisData=[];
+                let option = {
+                    title: {
+                        text: '折线图堆叠'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['cpu','内存']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xAxisData
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'cpu使用率',
+                            type:'line',
+                            stack: '总量',
+                            data:arr1
+                        },
+                        {
+                            name:'内存使用率',
+                            type:'line',
+                            stack: '总量',
+                            data:arr2
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                const socket = io(host);
+                socket.on('update', list => {
+                    let currTime = new Date();
+                    let displayString = currTime.toLocaleTimeString();
+                    xAxisData.push(displayString);
+                    this.cpu=list.cpuUsage;
+                    this.mem=list.usedMem;
+                    arr1.push(list.cpuUsage);
+                    arr2.push(list.usedMem);
+                    myChart.setOption(option);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

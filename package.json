@@ -1,0 +1,31 @@
+{
+  "name": "node-blog",
+  "version": "1.0.0",
+  "description": "node学习实例",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocky-191/node-blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rocky-191/node-blog/issues"
+  },
+  "homepage": "https://github.com/rocky-191/node-blog#readme",
+  "dependencies": {
+    "cpu-stat": "^2.0.1",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "iconv-lite": "^0.4.24",
+    "os-utils": "0.0.14",
+    "request": "^2.88.0"
+  }
+}
