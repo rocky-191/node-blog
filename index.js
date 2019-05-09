@@ -30,5 +30,6 @@ app.use(static(__dirname + '/public'));
 
 app.use(require('./routes/register').routes())
 app.use(require('./routes/api').routes())
+app.use(require('./routes/restful').routes())
 
 app.listen(3000);
