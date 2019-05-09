@@ -18,11 +18,20 @@
   },
   "homepage": "https://github.com/rocky-191/node-blog#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "cpu-stat": "^2.0.1",
     "express": "^4.16.4",
     "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-bouncer": "^6.0.4",
+    "koa-router": "^7.4.0",
     "koa-session": "^5.11.0",
-    "socket.io": "^2.2.0"
+    "koa-static": "^5.0.0",
+    "md5": "^2.2.1",
+    "moment": "^2.24.0",
+    "querystring": "^0.2.0",
+    "socket.io": "^2.2.0",
+    "trek-captcha": "^0.4.0"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3",
