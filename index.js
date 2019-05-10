@@ -3,6 +3,10 @@ const session = require('koa-session')
 
 const app=new koa()
 
+// 跨域
+var cors = require('koa2-cors');
+app.use(cors());
+
 // 签名key keys作用 用来对cookie进行签名
 app.keys = ['some secret'];
 
@@ -30,6 +34,6 @@ app.use(static(__dirname + '/public'));
 
 app.use(require('./routes/register').routes())
 app.use(require('./routes/api').routes())
-app.use(require('./routes/restful').routes())
+app.use(require('./routes/users').routes())
 
 app.listen(3000);

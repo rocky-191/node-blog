@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>login-session实例</title>
+    <style>
+        .el-button{
+            margin-top: 10px;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div>
+        <el-input v-model="username" placeholder="用户名"></el-input>
+        <el-input v-model="password" placeholder="密码"></el-input>
+      </div>
+      <div>
+        <el-button @click="login">Login</el-button>
+        <el-button @click="logout">Logout</el-button>
+        <el-button @click="getUser">GetUser</el-button>
+        <el-button @click="logs=[]">Clear Log</el-button>
+      </div>
+      <!-- 日志 -->
+      <ul>
+        <li v-for="(log,idx) in logs" :key="idx">
+          {{ log }}
+        </li>
+      </ul>
+    </div>
+    <script>
+      // 这行代码很关键，请求时携带cookie
+      axios.defaults.withCredentials = true;
+      axios.interceptors.response.use(response => {
+        app.logs.push(JSON.stringify(response.data));
+        return response;
+      });
+      var app = new Vue({
+        el: "#app",
+        data: {
+          username: "test",
+          password: "test",
+          logs: []
+        },
+        methods: {
+          login: async function() {
+            await axios.post("/users/login", {
+              username: this.username,
+              password: this.password
+            });
+          },
+          logout: async function() {
+            await axios.post("/users/logout");
+          },
+          getUser: async function() {
+            await axios.get("/users/getUser");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
